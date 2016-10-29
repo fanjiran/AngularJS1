@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table{
+            width:500px;
+            border-collapse:collapse;
+        }
+        td,th{
+           border:1px solid #ccc;
+            text-align:center;
+        }
+    </style>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("oneCtrl",['$scope','$filter','uppercaseFirstAndLastFilter',
+            function($scope,$filter,uppercaseFirstAndLastFilter){
+                $scope.msg = "hello"
+                $scope.msg2 = "HELLO";
+                $scope.arr1=["hello","terry","angular","java"];
+                $scope.arr2 = [
+                    {id:1001,name:'java',score:3},
+                    {id:1002,name:'javascript',score:4},
+                    {id:1003,name:'oracle',score:2}];
+                $scope.course = {
+                };
+                $scope.fun1=function(value,index){
+                    console.log(value,index);
+                    if(value.score>2){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                };
+                //调用过滤器1
+            var fun = $filter('uppercaseFirstAndLast');
+                var result = fun("weeked");
+                console.log(result);
+                //调用过滤器2
+                var result2 = uppercaseFirstAndLastFilter("anglar");
+                console.log(result2);
+
+        }]);
+        app.filter("uppercaseFirstAndLast",function () {
+            return function(input){
+                var firstChar = input.charAt(0).toUpperCase();
+                var lastChar = input.charAt(input.length-1).toUpperCase();
+                var centerChar = input.substr(1,input.length-2);
+                return firstChar+centerChar+lastChar;
+            }
+        });
+
+        app.filter("uppercaseIndex",function () {
+            return function(input,index){
+                console.log(arguments);
+                if(index>=0&&index<input.length){
+                    var beforeStr = input.substring(0,index);
+                    var centerStr = input.charAt(index).toUpperCase();
+                    var afterStr = input.substring(index+1);
+                    return beforeStr+centerStr+afterStr;
+                }
+                return input;
+
+            };
+        });
+
+        /*
+        * 1.遍历到过滤器
+        * 2.到模块中获取该过滤器 (function(){return fun(){};})
+        *
+        * 3.调用过滤器，并且附实参
+        *   var result = uppercaseFirstAndLast(msg)
+        * 4.将过滤器函数返回值输出 return
+        * */
+    </script>
+</head>
+<body ng-controller="oneCtrl">
+    msg:{{msg.toUpperCase()}}<br>
+    msg:{{msg | uppercase}}<br>
+    msg2:{{msg+"--"+ (msg2 | lowercase)}}<br>
+    msg:{{msg | uppercaseFirstAndLast}}<br>
+    mag:{{msg | uppercaseIndex : 3}};<br>
+    filter:{{arr1 | filter : 'java'}};
+
+    <ul>
+        <li ng-repeat="item in arr1 | filter:'java'">{{item}}</li>
+    </ul>
+    <hr>
+    学分：<input type="text" ng-model="course.score">
+    名称：<input type="text" ng-model="course.name">
+    <table>
+        <tr>
+            <th>编号</th>
+            <th>课程</th>
+            <th>学分</th>
+        </tr>
+        <tr ng-repeat="item in arr2 | filter:course | orderBy: '-score'">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.score}}</td>
+        </tr>
+    </table>
+    {{ arr2 | filter:fun1}}
+</body>
+</html>

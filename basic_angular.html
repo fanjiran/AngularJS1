@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>basic_angular</title>
+    <script src="frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        console.log("angular:",angular);
+        console.log(angular.constructor,angular.constructor.prototype);
+        //创建模块
+        var app = angular.module("app",[]);
+        console.log("angular app:",app);
+        console.log(app.constructor);
+        //创建控制器
+        //第一个参数控制器名称，第二个参数
+        app.controller("oneCtrl",function ($scope) {
+            //$scope数据模型(作用域对象)
+            $scope.obj={
+                msg:"hello angular"
+            };
+        });
+        //创建控制器2
+        app.controller("twoCtrl",function($scope){
+           $scope.stu = {
+               name:"默认name",
+               age:0,
+               gender:"男"
+           };
+           $scope.funs={
+               submitFun:function(){
+                   console.log($scope.stu);
+               }
+           }
+        });
+        app.controller("threeCtrl",function($scope,$http){
+            $http({
+                url:"data/stus.json",
+                method:"GET"
+            }).success(function(data){
+                $scope.stus=data;
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1 ng-controller="oneCtrl">{{obj.msg}}</h1>
+    <div ng-controller="twoCtrl">
+        <form ng-submit="funs.submitFun()">
+            姓名<input type="text" ng-model="stu.name" name="name">
+            <hr>
+            年龄<input type="text" ng-model="stu.age" name="age">
+            <hr>
+            性别<input type="text" ng-model="stu.gender" name="gender">
+            <hr>
+            <input type="submit">
+
+        </form>
+        {{stu}}
+    </div>
+
+    <div ng-controller="threeCtrl">
+    <table width="400px" border="1px" cellspacing="0">
+        <thead>
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="stu in stus">
+            <td>{{stu.id}}</td>
+            <td>{{stu.name}}</td>
+            <td>{{stu.age}}</td>
+            <td>{{stu.gender}}</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        //创建模型
+        var app = angular.module("app",[]);
+        app.controller("oneCtrl",function($scope){
+                $scope.data={
+                    type:"check"
+            }
+            $scope.submitSave=function(event){
+                console.log(event);
+                return false;
+            }
+        });
+
+    </script>
+</head>
+<body>
+
+    <div ng-controller="oneCtrl">
+        {{data}}
+        <form action="saveSubmit.action" ng-submit="submitSave()">
+        <h1>题库</h1>
+        <select ng-model="data.type">
+            <option value="radio">单项选择</option>
+            <option value="check">多项选择</option>
+            <option value="question">问答题</option>
+        </select> <br>
+            题目题干
+            <textarea  id="" cols="30" rows="10"></textarea>
+            <div ng-show="data.type=='radio'">
+                选项卡A <input type="radio" value="A" name="choice" ng-model="data.radio">
+                <textarea ng-model="data.choiceA"  cols="30" rows="1"></textarea> <br>
+                选项卡B <input type="radio" value="B" name="choice" ng-model="data.radio">
+                <textarea ng-model="data.choiceB"  cols="30" rows="1"></textarea> <br>
+                选项卡C <input type="radio" value="C" name="choice" ng-model="data.radio">
+                <textarea ng-model="data.choiceC"  cols="30" rows="1"></textarea> <br>
+                选项卡D <input type="radio" value="D" name="choice" ng-model="data.radio">
+                <textarea ng-model="data.choiceD"  cols="30" rows="1"></textarea>
+            </div>
+            <div ng-show="data.type=='check'">
+                选项卡A <input type="checkbox" value="A" name="choice">
+                <textarea  cols="50" rows="1"></textarea><br>
+                选项卡B <input type="checkbox" value="B" name="choice">
+                <textarea  cols="50" rows="1"></textarea><br>
+                选项卡C <input type="checkbox" value="C" name="choice">
+                <textarea  cols="50" rows="1"></textarea><br>
+                选项卡D <input type="checkbox" value="D" name="choice">
+                <textarea  cols="50" rows="1"></textarea><br>
+            </div>
+            <div ng-show="data.type=='question'">
+                答案： <textarea cols="30" rows="10"></textarea>
+            </div>
+            <input type="submit" value="提交">
+        </form>
+    </div>
+
+</body>
+</html>

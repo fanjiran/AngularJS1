@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("oneCtrl",function ($scope) {
+            $scope.msg = "hello angular";
+        });
+
+        //手动启动angular模块
+        window.onload = function(){
+            angular.bootstrap(document,["app"]);
+        };
+
+        var a = 3;
+        var b = "3";
+        var obj1 = {};
+        var obj2 = {
+            name:"terry",
+            age:12
+        };
+        var obj3 = {
+            name:"terry",
+            age:12
+        };
+        var obj4 = {
+            id:1001
+        };
+        var arr = ["terry","larry","tom"];
+        var result1 = obj2 == obj3;
+        var result2 = angular.equals(obj2,obj3);
+        var result3 = NaN == NaN;
+        var result4 = angular.equals(NaN,NaN);
+        console.log(result1,result2);
+        console.log(result3,result4);
+        //继承
+        angular.extend(obj4,obj3);
+        console.log(obj4);
+        //遍历
+        angular.forEach(arr,function (item,index,arr) {
+            console.log(index+":"+item);
+        });
+
+
+        /*
+         //复制  copy
+         console.log(obj1);
+         angular.copy(obj2,obj1);
+         console.log(obj1);
+         */
+        //函数  bind 将指定对象绑定的函数的this值上
+        /*
+         var a = 1;
+         function foo(a){
+         alert(this.a+":"+a);
+         }
+         var obj = {
+         a:2
+         }
+
+         //foo();
+         //foo.call(obj,3);
+         var fn = angular.bind(obj,foo,5);
+         fn();
+         */
+
+    </script>
+
+</head>
+<body ng-controller="oneCtrl">
+{{msg}}
+</body>
+</html>

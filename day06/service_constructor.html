@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("oneCtrl",function(UserService3,$scope,copyright,baseURL){
+            //查询所有的
+            var users = UserService3.getAllUsers();
+            console.log(users);
+            //添加
+            UserService3.addUser("中国人");
+            console.log(users);
+            console.log(copyright);
+            console.log("baseURL",baseURL);
+        });
+        //工厂模式factory
+        app.factory("UserService1",function(){
+           return{
+               users:["terry","larry"],
+               getAllUsers:function(){
+                   return this.users;
+               },
+               addUser:function(name){
+                   this.users.push(name);
+               }
+           };
+        });
+        //构造函数模式service
+        app.service("UserService2",function(){
+            this.users=["terry","larry"];
+            this.getAllUsers = function(){
+                return this.users;
+            };
+            this.addUser = function(name){
+                this.users.push(name);
+            };
+        });
+        //常亮服务value
+        app.value("copyright","杰普软件");
+        //常亮2
+        app.constant("baseURL","http://127.0.0.1:80/exam");
+
+        //provider
+        app.provider("UserService3",function(){
+            this.url = "原始url";
+            this.setUrl = function(url){
+                this.url = url;
+            }
+            this.$get = function(){
+                //将provider的引用赋值给变量self
+                var self = this;
+                return{
+                    users:["terry","larry"],
+                    getAllUsers:function(){
+                        console.log(self.url)
+                        return this.users;
+                    },
+                    addUser:function(name){
+                        this.users.push(name);
+                    }
+                };
+            }
+        });
+        //配置
+        app.config(function (UserService3Provider){
+            UserService3Provider.setUrl("http://localhost")
+        })
+
+    </script>
+</head>
+<body ng-controller="oneCtrl">
+
+</body>
+</html>

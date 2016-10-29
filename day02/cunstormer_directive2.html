@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>cunstormer_directive2</title>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script src="../frameworks/angular-1.4.0/angular-sanitize.min.js"></script>
+    <script>
+        //创建模块
+        var app = angular.module("app",["ngSanitize"]);
+        app.controller("oneCtrl",function($scope){
+            $scope.aa="oneCtrl_value";
+        });
+        //指令
+        app.directive("firstDt",function(){
+            return {
+                restrict:"AE",
+                scope:{
+                    aa:"@"//aa=@aa 属性里边的aa
+                },
+                //template:"<h1>hello word{{aa}}</h1>" +
+                //  "<br><input type='text' ng-model='aa'><hr>"
+                template:"<h1>hello word->{{aa}} <br> <input ng-model='aa'></h1><hr>"
+            };
+        });
+    </script>
+</head>
+<body>
+<div ng-controller="oneCtrl">
+    <h1>自定义指令</h1>
+
+    element:    <first-dt aa="{{aa}}"></first-dt>
+                <!--<first-dt aa="aa"></first-dt> scope:{aa:"="}-->
+
+    外部访问：{{aa}}
+    <input type="text" ng-model="aa">
+    <hr>
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script src="../frameworks/angular-1.4.0/angular-route.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("mainCtrl",function(){
+
+        });
+    </script>
+</head>
+<body ng-controller="mainCtrl">
+    <a href="#/Chanpin">产品详情</a>
+    <a href="">费率信息</a>
+    <a href="">常见问题</a>
+
+    <div ng-view>
+
+    </div>
+</body>
+</html>

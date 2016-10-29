@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>指令复习</title>
+    <style>
+        table{
+            width:300px;
+            border-collapse: collapse;
+        }
+        td{
+            border:1px solid #ccc;
+        }
+    </style>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("oneController",function ($scope) {
+            $scope.num = 111;
+            $scope.num2 = 222;
+        });
+        //自定义指令 my-one
+        app.directive("myOne",function () {
+            return {
+                restrict:"E",
+                scope:{
+
+                },
+                template:"!<ng-transclude></ng-transclude>!",
+                transclude:true,
+                compile:function compile(tElement, tAttributes ) {
+                    alert("compile");
+                    //返回链接函数
+                    console.log("compile");
+                    console.log(tElement);
+                    return {
+                        pre:function preLink(){
+                            alert("prelink");
+                            console.log("prelink");
+                        },
+                        post:function postLink(scope, element, attributes, controller ){
+                            alert("postlink");
+                            console.log("postlink");
+                            console.log(element);
+                        }
+                    }
+                },
+                controller:function($scope, $element, $attrs, $transclude){
+                    alert("controller");
+                    console.log("controller");
+                    console.log($element);
+                }
+
+            };
+        });
+    </script>
+</head>
+<body ng-controller="oneController">
+<my-one>
+    即将有一个table出现
+    <table>
+        <tbody>
+        <tr>
+            <td>学号</td>
+            <td>姓名</td>
+            <td>班级</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</my-one>
+</body>
+</html>

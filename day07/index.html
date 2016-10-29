@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>路由机制</title>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script src="../frameworks/angular-1.4.0/angular-route.min.js"></script>
+    <style>
+        a{
+           text-decoration: none;
+        }
+    </style>
+    <script>
+        var app = angular.module("app",["ngRoute"]);
+        app.controller("mainCtrl",function(){
+
+        });
+        //学生局部页面控制器
+        app.controller("stuCtrl",function($scope,$route,$routeParams){
+            $scope.name = "学生信息管理页面"
+            console.log($route);
+            console.log($route.routes);
+            console.log($routeParams);
+
+        });
+        app.controller("teaCtrl",function($scope){
+            $scope.name = "老师信息管理页面"
+        });
+        app.controller("courCtrl",function($scope,$route,$routeParams){
+            $scope.name = "课程信息管理页面"
+            console.log($route);
+            console.log($routeParams);
+        });
+        app.controller("chapterCtrl",function($scope,$route,$routeParams){
+            $scope.name = "章节";
+            console.log($route);
+            console.log($routeParams);
+        });
+        //配置
+        app.config(function($routeProvider) {
+            $routeProvider.when("/Student", {
+                templateUrl: "tpl/students.html",
+                controller: "stuCtrl"
+            }).when("/Teacher", {
+                templateUrl: "tpl/teachers.html",
+                controller: "teaCtrl"
+            }).when("/Course", {
+                templateUrl: "tpl/courses.html",
+                controller: "courCtrl"
+            }).when("/Course/:name/Ch01/:page",{
+                templateUrl:"tpl/courses.html",
+                controller:"chapterCtrl"
+            });
+        });
+    </script>
+</head>
+<body ng-controller="mainCtrl">
+    <a href="#/Student">学生页面</a>|
+    <a href="#/Teacher">教师页面</a>|
+    <a href="#/Course?name=java&page=52">课程页面</a>
+    <a href="#/Course/java/Ch01/52"></a>
+    <hr>
+    <!--代表将路由机制插入到当前div中-->
+    <div ng-view>
+
+    </div>
+</body>
+</html>

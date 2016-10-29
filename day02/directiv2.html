@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>directive2</title>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("oneCtrl",function($scope){
+
+        });
+    </script>
+</head>
+<body>
+<div ng-controller="oneCtrl">
+    <h1>选项卡</h1>
+    number:<input type="text" ng-model="number">
+    <br>
+    <ul ng-switch="number">
+        <li ng-switch-when="1">周一</li>
+        <li ng-switch-when="2">周二</li>
+        <li ng-switch-when="3">周三</li>
+        <li ng-switch-when="4">周四</li>
+        <li ng-switch-when="5">周五</li>
+        <li ng-switch-default>周日</li>
+    </ul>
+</div>
+</body>
+</html>

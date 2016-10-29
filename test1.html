@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>test1</title>
+    <script src="frameworks/angular-1.4.0/angular.min.js"></script>
+    <script src="frameworks/angular-1.4.0/angular-sanitize.min.js"></script>
+    <script>
+        //创建模块
+        var app = angular.module("app",["ngSanitize"]);
+        //创建控制器
+        app.controller("oneCtrl",function($scope){
+           $scope.msg = 1001;
+            $scope.msg="<i class='bg1' style='background: seagreen'>hello</i>"
+        });
+    </script>
+</head>
+<body>
+    <div ng-controller="oneCtrl">
+        <h1>数据绑定</h1>
+        <div>
+            双向 <input type="text" ng-model="msg"> <br>
+            单向 <input type="text" value="{{msg}}"> <br>
+            单向2 <span  ng-bind="msg"> </span> <br>
+            html <span ng-bind-html="msg"></span> <br>
+            template <span ng-bind-template="msg{{msg}}"></span>
+        </div>
+    </div>
+</body>
+</html>

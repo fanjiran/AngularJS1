@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>threecont</title>
+    <style>
+        .bg1{background: seagreen}
+    </style>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+       var app = angular.module("app",[]);
+       //web层 视图层（mvc） controller $scope  ng-repeat
+        app.controller("oneCtrl",function($scope,studentService){
+            $scope.stus = studentService.getStudent();
+            $scope.service = studentService;
+        });
+
+       app.controller("twoCtrl",function($scope,studentService){
+
+           $scope.stus = studentService.getStudent();
+       });
+//创建学生管理的服务
+        app.service("studentService",function () {
+            return {
+                students:[{
+                    "id":1001,
+                    "name":"terry",
+                    "age":12,
+                    "gender":"male"},
+                    {
+                        "id":1002,
+                        "name":"terry",
+                        "age":12,
+                        "gender":"male"
+                    },
+                    {
+                        "id":1003,
+                        "name":"terry",
+                        "age":12,
+                        "gender":"male"
+                    },
+                    {
+                        "id":1004,
+                        "name":"terry",
+                        "age":12,
+                        "gender":"male"
+                    }],
+                getStudent:function(){
+                    return this.students;
+                },
+                addStudent:function(stu){
+                    this.students.push({
+                        "id":1004,
+                        "name":"terry",
+                        "age":12,
+                        "gender":"male"
+                    })
+                },
+                removeStudent:function(){
+                    this.students.shift();
+                }
+            };
+        });
+    </script>
+</head>
+<body>
+
+<div ng-controller="oneCtrl">
+    <button ng-click="service.addStudent()">添加</button>
+    <button ng-click="service.removeStudent(stu)">删除</button>
+    <table width="400px" border="1px" cellspacing="0">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="stu in stus" class="{{$odd?'bg1':''}}">
+            <td>{{$index+1}}</td>
+            <td>{{stu.id}}</td>
+            <td>{{stu.name}}</td>
+            <td>{{stu.age}}</td>
+            <td>{{stu.gender}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<hr>
+<div ng-controller="twoCtrl">
+    <table width="400px" border="1px" cellspacing="0">
+        <thead>
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="stu in stus">
+            <td>{{stu.id}}</td>
+            <td>{{stu.name}}</td>
+            <td>{{stu.age}}</td>
+            <td>{{stu.gender}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

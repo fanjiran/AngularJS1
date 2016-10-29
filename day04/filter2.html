@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table{
+            width:500px;
+            border-collapse:collapse;
+        }
+        td,th{
+            border:1px solid #ccc;
+            text-align:center;
+        }
+    </style>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script src="../frameworks/angular-1.4.0/i18n/angular-locale_zh.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("oneController",function($scope,$filter){
+            $scope.money=10000000;
+            $scope.date = new Date();
+            $scope.person = {
+                id:1001,
+                name:"larry",
+                age:12
+            };
+              $scope.arr=  [{
+                  id:1001,
+                    name:"larry",
+                    age:12},{
+                    id:1002,
+                    name:"tarry",
+                    age:14
+                }];
+            console.log($scope.person);
+            console.log($scope.arr);
+
+            console.log($filter('json')($scope.person));
+            console.log($filter('json')($scope.arr));
+        })
+    </script>
+</head>
+<body ng-controller="oneController">
+    money:{{money | currency}}<br>
+    date:{{date | date :'yyyy/mm/dd hh/mm/ss'}};<br>
+    person:{{person}}<br>
+    arr:{{arr}}<br>
+    person:{{person | json}}<br>
+    arr:{{arr | json}}<br>
+</body>
+</html>

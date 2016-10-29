@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <style>
+        table{
+            width:500px;
+            border-collapse: collapse;
+        }
+        th,td{
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        .bg1{
+            background-color: seagreen;
+        }
+    </style>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("oneCtrl",function($scope,$filter){
+            $scope.arr=[
+                {id:1001,name:'Larry',class:1601,age:12,gender:'man'},
+                {id:1002,name:'Terry',class:1601,age:14,gender:'woman'},
+                {id:1003,name:'Tom',class:1603,age:18,gender:'woman'}];
+            $scope.course={
+                id:"",
+                name:"",
+                class:"",
+                age:"",
+                gender:""
+            };
+        });
+
+
+    </script>
+</head>
+<body ng-controller="oneCtrl">
+    学号 <input type="text" ng-model="course.id">
+    姓名 <input type="text" ng-model="course.name">
+    班级 <input type="text" ng-model="course.class">
+    年龄 <input type="text" ng-model="course.age">
+    性别 <input type="text" ng-model="course.gender">
+<table>
+    <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>班级</th>
+        <th>年龄</th>
+        <th>性别</th>
+    </tr>
+    <tr ng-repeat="item in arr | filter:course " calss="bg1"  ng-mouseover="course:'bg1'" >
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.class}}</td>
+        <td>{{item.age}}</td>
+        <td>{{item.gender}}</td>
+    </tr>
+</table>
+</body>
+</html>

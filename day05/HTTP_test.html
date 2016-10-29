@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>HTTP_test</title>
+    <style>
+        table{
+            width:500px;
+            border-collapse:collapse;
+        }
+        th,td{
+            border:1px solid #ccc;
+            text-align:center;
+        }
+    </style>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("oneCtrl",function($scope,User1){
+                User1.getAllUser(function(result){
+                    $scope.users = result;
+                })
+        });
+        app.controller("twoCtrl",function($scope,User2){
+            User2.getAllUser(function(data){
+                $scope.users = data;
+            });
+        });
+        app.factory("User1",function($http){
+            var service = {
+                getAllUser:function(handler){
+                    $http({
+                        method:"GET",
+                        url:"users.json",
+                        params:{
+                            name:'terry'
+                        },
+                        data:{
+                            id:1001
+                        },
+                        responseType:"json",
+                        cache:true,
+                        headers:{
+                            "content-type":"text/css"
+                        }
+                    }).success(function(data){
+                        handler(data);
+                    }).error(function(){
+                        console.log("出错了");
+                    });
+                }
+            }
+            return service;
+        });
+        app.factory("User2",function($http){
+            return {
+                //获取所有学生信息，参数为回调函数
+                getAllUser:function(handler){
+                    $http.get("users.json").success(function(data){
+                       //将查询到的值传递给回调函数
+                        handler(data);
+                    });
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+<table ng-controller="oneCtrl">
+    <thead>
+    <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>年龄</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in users">
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.gender}}</td>
+        <td>{{user.age}}</td>
+    </tr>
+    </tbody>
+    <dl ng-controller="twoCtrl">
+        <dt>学生排行榜</dt>
+        <dd ng-repeat="user in users | orderBy : '-age'">
+            {{($index+1)+":"+user.name}}
+        </dd>
+    </dl>
+</table>
+</body>
+</html>

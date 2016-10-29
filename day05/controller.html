@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("oneCtrl",function($controller){
+            console.log("oneCtrl----");
+            $controller('twoCtrl');//初始化一个controller
+        });
+        app.controller("twoCtrl",function($controller) {
+            console.log("twoCtrl----");
+            console.log("");
+        });
+
+    </script>
+</head>
+<body>
+    <div ng-controller="oneCtrl"></div>
+    <div></div>
+</body>
+</html>

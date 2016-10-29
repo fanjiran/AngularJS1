@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>HTTP</title>
+    <style>
+        table{
+            width:500px;
+            border-collapse:collapse;
+        }
+        td,th{
+            border:1px solid #ccc;
+            text-align:center;
+        }
+        dl{
+            float: right;
+        }
+        </style>
+    <script src="../frameworks/angular-1.4.0/angular.min.js"></script>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("oneCtrl",function($scope,User1) {
+            //回调函数
+         /*   var handler = function(result){
+                $scope.users = result;
+            };
+            //调用服务方法获取所有的用户信息
+                   User1.getAllUser(handler);
+
+              */
+        User1.getAllUser(function(result){
+            $scope.users = result;
+        });
+        });
+        app.controller("twoCtrl",function($scope,User2) {
+                User2.getAllUser(function(data){
+                    $scope.users = data;
+                });
+
+
+        });
+/*//jsonp
+        app.factory("User3",function($http){
+            return {
+                getAllUser: function () {
+                    $http.jsonp("users.js?callback=JSON_CALLBACK").sccess(function (result) {
+                        console.log(result);
+                    });
+                }
+            }
+        });
+*/
+        //自定义服务2，User2 在工厂函数注入$http
+        app.factory("User2",function($http){
+            return{
+                //获取学生信息，参数为回调函数
+                getAllUser:function(handler){
+                    $http.get("users.json").success(function(data){
+                        //将查询到的值传递给回调函数
+                        handler(data);
+                    })
+                }
+            }
+        });
+        //自定义服务1 $http底层API
+       app.factory("User1",function($http){
+            var service = {
+                getAllUser:function(handler) {
+
+                    $http({
+                        method: "get",
+                        url: "users.json",
+                        params: {
+                            name: "terry"
+                        },
+                        data: {
+                            id: 1001
+                        },
+                        responseType: "json",
+                        cache: false,
+                        headers: {
+                            "content-type": "text/css"
+                        }
+                    }).then(function (result) {
+                        //回调函数的调用
+                         handler(result.data);
+                    }, function (result) {
+                        console.log("error:", result);
+                    });
+                    /*.success(function(data){
+                         console.log(data);
+                         }).error(function(data){
+                         console.log("出错了",data);
+                         });*/
+                }
+            }
+                return service;
+
+        });
+        </script>
+</head>
+<body>
+<table ng-controller="oneCtrl">
+    <thead>
+    <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+    </tr>
+    <tr ng-repeat="user in users">
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.age}}</td>
+        <td>{{user.gender}}</td>
+    </tr>
+    </thead>
+</table>
+<dl ng-controller="twoCtrl">
+    <dt>学生排行榜</dt>
+    <dd ng-repeat="user in users | orderBy : '-age'">
+    {{($index+1)+":"+user.name}}
+    </dd>
+</dl>
+</body>
+</html>
